@@ -12,6 +12,8 @@ import RegisterForm from "./components/RegisterForm";
 import UsersList from "./components/UsersList";
 import UserStatus from "./components/UserStatus";
 
+import miyaPhoto from './miya.JPG';
+
 const modalStyles = {
   content: {
     top: "0",
@@ -31,7 +33,7 @@ class App extends Component {
 
     this.state = {
       users: [],
-      title: "TestDriven.io",
+      title: "Miya Playground",
       accessToken: null,
       messageType: null,
       messageText: null,
@@ -199,6 +201,7 @@ class App extends Component {
                       <div>
                         <h1 className="title is-1">Users</h1>
                         <hr />
+                        <img src={miyaPhoto} /> 
                         <br />
                         {this.isAuthenticated() && (
                           <button
