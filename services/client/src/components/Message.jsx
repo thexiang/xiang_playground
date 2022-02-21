@@ -1,31 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { MessageContext } from "context/messageContext";
 
 const style = {
   top: "auto",
 };
 
-const Message = (props) => {
-  return (
-    <section data-testid="message">
-      <div className={`notification is-${props.messageType}`}>
-        <button
-          className="delete"
-          style={style}
-          onClick={() => {
-            props.removeMessage();
-          }}
-        />
-        <span className="message-text">{props.messageText}</span>
-      </div>
-    </section>
-  );
-};
+const Message = () => {
+	const {messageType, messageText, removeMessage} = useContext(MessageContext);
 
-Message.propTypes = {
-  messageType: PropTypes.string.isRequired,
-  messageText: PropTypes.string.isRequired,
-  removeMessage: PropTypes.func.isRequired,
+	if (!messageType && !messageText) {
+		return null;
+	}
+
+	return (
+		<section data-testid="message">
+			<div className={`notification is-${messageType}`}>
+			<button
+				className="delete"
+				style={style}
+				onClick={removeMessage}
+			/>
+			<span className="message-text">{messageText}</span>
+			</div>
+		</section>
+	);
 };
 
 export default Message;

@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { AuthContext } from "context/authContext";
+import { UsersContext } from "context/usersContext";
 
 import "./NavBar.css";
 
@@ -8,7 +11,10 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
-const NavBar = (props) => {
+const NavBar = () => {
+  const { getIsAuthenticated, logoutUser } = useContext(AuthContext);
+  const { title } = useContext(UsersContext);
+
   let menu = (
     <div className="navbar-menu">
       <div className="navbar-start">
@@ -26,7 +32,7 @@ const NavBar = (props) => {
       </div>
     </div>
   );
-  if (props.isAuthenticated()) {
+  if (getIsAuthenticated()) {
     menu = (
       <div className="navbar-menu">
         <div className="navbar-start">
@@ -40,7 +46,7 @@ const NavBar = (props) => {
         <div className="navbar-end">
           <span
             // eslint-disable-next-line react/jsx-handler-names
-            onClick={props.logoutUser}
+            onClick={logoutUser}
             className="navbar-item link"
             data-testid="nav-logout"
           >
@@ -59,7 +65,7 @@ const NavBar = (props) => {
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>
-            {props.title}
+            {title}
           </Link>
           <span
             className="nav-toggle navbar-burger"
@@ -79,12 +85,6 @@ const NavBar = (props) => {
       </section>
     </nav>
   );
-};
-
-NavBar.propTypes = {
-  title: PropTypes.string.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.func.isRequired,
 };
 
 export default NavBar;
