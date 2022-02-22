@@ -7,6 +7,7 @@ import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { StatusPage } from 'pages/StatusPage/StatusPage';
 import { Layout } from 'components/Layout/Layout';
+import { Flask } from 'pages/Flask/FlaskPage';
 
 const routes = [
     {

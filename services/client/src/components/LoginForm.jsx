@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Navigate } from "react-router-dom";
 
 import "./form.css";
+import { AuthContext } from "context/authContext";
 
-const LoginForm = (props) => {
-  if (props.isAuthenticated()) {
+const LoginForm = () => {
+  const {handleLoginFormSubmit, getIsAuthenticated} = useContext(AuthContext);
+  if (getIsAuthenticated()) {
     return <Navigate to="/" replace />;
   }
   return (
@@ -21,7 +23,7 @@ const LoginForm = (props) => {
           password: "",
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          props.handleLoginFormSubmit(values);
+          handleLoginFormSubmit(values);
           resetForm();
           setSubmitting(false);
         }}
@@ -98,11 +100,6 @@ const LoginForm = (props) => {
       </Formik>
     </div>
   );
-};
-
-LoginForm.propTypes = {
-  handleLoginFormSubmit: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

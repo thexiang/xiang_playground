@@ -13,15 +13,12 @@ export const UsersPage = () => {
 
     return (
         <div>
-			{/* <img src={coverPhoto} />  */}
-			{getIsAuthenticated() && (
-				<Button
-					onClick={() => setIsModalVisible(true)}
-					style={{ margin: '2rem auto'}}
-				>
-					Add User
-				</Button>
-			)}
+			<Button
+				onClick={() => setIsModalVisible(true)}
+				style={{ margin: '2rem auto'}}
+			>
+				Add Dog
+			</Button>
 
 			<UsersList />
 
