@@ -4,6 +4,9 @@ import './Layout.css';
 
 export const Layout = ({ children }) => {
     return (
-        <div className='content-layout'>{children}</div>
+        <div className='content-layout'>
+            <h1>Miya's playground</h1>
+            {children}
+        </div>
     )
 }

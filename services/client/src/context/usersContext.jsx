@@ -8,58 +8,72 @@ export const UsersContext = createContext({
     dogs: [],
     title: 'Miya Playground',
     getUsers: () => {},
-    addUser: () => {},
+    addDog: () => {},
     removeUser: () => {},
+    deleteDog: () => {},
+    updateDog: () => {},
+    isLoadingDogs: false,
 });
 
 export const UsersProvider = (props) => {
 	const [usersArr, setUsersArr] = useState([]);
     const [dogs, setDogs] = useState([]);
     const [title, setTitle] = useState('Miya Playground');
-
-    // TODO: move to another context?
-    const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
+    const [isLoadingDogs, setIsLoadingDogs] = useState(false);
 
     const { accessToken } = useContext(AuthContext);
     const { createMessage } = useContext(MessageContext);
 
     const getUsers = async () => {
-        try {
-            const res = await axios.get(`${process.env.REACT_APP_API_SERVICE_URL}/users`)
-            setUsersArr(res.data);
-        } catch (err) {
-            console.error(err);
-        }
+        // try {
+        //     const res = await axios.get(`${process.env.REACT_APP_API_SERVICE_URL}/users`)
+        //     setUsersArr(res.data);
+        // } catch (err) {
+        //     console.error(err);
+        // }
     }
 
     const getDogs = async () => {
+        setIsLoadingDogs(true);
         try {
             const res = await axios.get(`${process.env.REACT_APP_NODE_DOG_API_URL}/dogs`);
             setDogs(res.data);
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsLoadingDogs(false);
         }
     }
 
-    const resetForm = () => {
-        setUserName('');
-        setEmail('');
+    const updateDog = async (id, data) => {
+        try {
+            await axios.post(`${process.env.REACT_APP_NODE_DOG_API_URL}/dog/update/${id}`, data);
+            getDogs();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
+    const deleteDog = async (id) => {
+        console.log(id);
+        try {
+            await axios.delete(`${process.env.REACT_APP_NODE_DOG_API_URL}/dog/delete/${id}`);
+            getDogs();
+        } catch (err) {
+            console.error(`Error deleting dog: dog id ${id}`);
+        }    
+    }
+
+
     // TODO: refactor to async
-    const addUser = (data) => {
-        axios
-            .post(`${process.env.REACT_APP_API_SERVICE_URL}/users`, data)
-            .then((res) => {
-                getUsers();
-                resetForm();
-                createMessage("success", "User added.");
-            })
-            .catch((err) => {
-                console.log(err);
-                createMessage("danger", "That user already exists.");
-            });
+    const addDog = async (data) => {
+        console.log(data);
+        try {
+            await axios.post(`${process.env.REACT_APP_NODE_DOG_API_URL}/dog/add`, data);
+            getDogs();
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     // TODO: refactor to async
@@ -92,8 +106,11 @@ export const UsersProvider = (props) => {
                 dogs,
                 title,
                 getUsers,
-                addUser,
+                addDog,
                 removeUser,
+                deleteDog,
+                updateDog,
+                isLoadingDogs,
 			}}
 		>
 			{props.children}

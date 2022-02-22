@@ -20,17 +20,17 @@ services:
       - api-db
 
   node-api:
+    container_name: node-api
     build:
       context: ./services/dogs
       dockerfile: Dockerfile
     volumes:
       - './services/dogs:/usr/src/app'
       - '/usr/src/app/node_modules'
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/api_dev
-      - DATABASE_TEST_URL=postgresql://postgres:postgres@api-db:5432/api_test
     ports:
       - 5005:8080
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/api_dev?connect_timeout=300
 
   api-db:
     build:
@@ -54,7 +54,7 @@ services:
       - 3007:3000
     environment:
       - NODE_ENV=development
-      - REACT_APP_API_SERVICE_URL=${REACT_APP_API_SERVICE_URL}
-      - REACT_APP_NODE_DOG_API_URL=${REACT_APP_NODE_DOG_API_URL}
+      - REACT_APP_API_SERVICE_URL=http://localhost:5004
+      - REACT_APP_NODE_DOG_API_URL=http://localhost:5005
     depends_on:
       - api

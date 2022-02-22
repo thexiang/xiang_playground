@@ -9,10 +9,12 @@ export const AuthContext = createContext({
     getIsAuthenticated: () => {},
     handleLoginFormSubmit: () => {},
     logoutUser: () => {},
+    isAuthenticated: true,
 });
 
 export const AuthProvider = (props) => {
     const [accessToken, setAccessToken] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(true); //TODO: change to false after fix login
 
     const { createMessage } = useContext(MessageContext);
 
@@ -90,6 +92,7 @@ export const AuthProvider = (props) => {
                 getIsAuthenticated,
                 handleLoginFormSubmit,
                 logoutUser,
+                isAuthenticated,
 			}}
 		>
 			{props.children}

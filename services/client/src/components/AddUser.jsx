@@ -1,121 +1,51 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import React, { useContext, useState } from "react";
+import { Form, Input, InputNumber, Button } from 'antd';
+
 import { UsersContext } from "context/usersContext";
 
 import "./form.css";
 
-const AddUser = () => {
-	const { addUser } = useContext(UsersContext);
+const AddUser = ({ onCancel }) => {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const { addDog } = useContext(UsersContext);
+
+	const handleFinish = async (values) => {
+		setIsSubmitting(true);
+		try {
+			await addDog(values);
+			setIsSubmitting(false);
+			onCancel();
+		} catch (err) {
+			console.error('Something went wrong when submitting dog');
+		}
+	}
+
 	return (
-		<Formik
-			initialValues={{
-				username: "",
-				email: "",
-				password: "",
-			}}
-			onSubmit={(values, { setSubmitting, resetForm }) => {
-				addUser(values);
-				resetForm();
-				setSubmitting(false);
-			}}
-			validationSchema={Yup.object().shape({
-				username: Yup.string()
-				.required("Username is required.")
-				.min(6, "Username must be greater than 5 characters."),
-				email: Yup.string()
-				.email("Enter a valid email.")
-				.required("Email is required.")
-				.min(6, "Email must be greater than 5 characters."),
-				password: Yup.string()
-				.required("Password is required.")
-				.min(11, "Password must be greater than 10 characters."),
-			})}
-		>
-			{(props) => {
-				const {
-				values,
-				touched,
-				errors,
-				isSubmitting,
-				handleChange,
-				handleBlur,
-				handleSubmit,
-				} = props;
-				return (
-				<form onSubmit={handleSubmit}>
-					<div className="field">
-					<label className="label" htmlFor="input-username">
-						Username
-					</label>
-					<input
-						name="username"
-						id="input-username"
-						className={
-						errors.username && touched.username ? "input error" : "input"
-						}
-						type="text"
-						placeholder="Enter a username"
-						value={values.username}
-						onChange={handleChange}
-						onBlur={handleBlur}
-					/>
-					{errors.username && touched.username && (
-						<div className="input-feedback">{errors.username}</div>
-					)}
-					</div>
-					<div className="field">
-					<label className="label" htmlFor="input-email">
-						Email
-					</label>
-					<input
-						name="email"
-						id="input-email"
-						className={
-						errors.email && touched.email ? "input error" : "input"
-						}
-						type="email"
-						placeholder="Enter an email address"
-						value={values.email}
-						onChange={handleChange}
-						onBlur={handleBlur}
-					/>
-					{errors.email && touched.email && (
-						<div className="input-feedback">{errors.email}</div>
-					)}
-					</div>
-					<div className="field">
-					<label className="label" htmlFor="input-password">
-						Password
-					</label>
-					<input
-						name="password"
-						id="input-password"
-						className={
-						errors.password && touched.password ? "input error" : "input"
-						}
-						type="password"
-						placeholder="Enter a password"
-						value={values.password}
-						onChange={handleChange}
-						onBlur={handleBlur}
-					/>
-					{errors.password && touched.password && (
-						<div className="input-feedback">{errors.password}</div>
-					)}
-					</div>
-					<input
-					type="submit"
-					className="button is-primary"
-					value="Submit"
-					disabled={isSubmitting}
-					/>
-				</form>
-				);
-			}}
-		</Formik>
-)
+		<>
+			<h3>Add your puppy!</h3>
+			<Form onFinish={handleFinish} disabled={isSubmitting}>
+				<Form.Item 
+					label="Name" 
+					name="name" 
+					rules={[{ required: true, message: 'Please enter puppy name' }]}
+				>
+					<Input style={{ width: '200px' }} />
+				</Form.Item>
+
+				<Form.Item 
+					label="Age" 
+					name="age"
+					rules={[{ required: true, message: 'Please enter puppy age' }]}
+				>
+					<InputNumber style={{ width: '200px' }} />
+				</Form.Item>
+
+				<Button onClick={onCancel} disabled={isSubmitting} style={{ marginRight: '10px' }}>Cancel</Button>
+				<Button type="primary" htmlType="submit" loading={isSubmitting} disabled={isSubmitting}>Submit</Button>
+			</Form>
+		</>
+	)
 };
 
 export default AddUser;

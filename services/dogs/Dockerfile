@@ -1,4 +1,6 @@
-FROM node:17-alpine
+FROM node:16-slim
+RUN apt-get update
+RUN apt-get install -y openssl
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -8,13 +10,13 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json .
-COPY package-lock.json .
+COPY prisma ./prisma/
 RUN npm install
 
 # Bundle app source
 COPY . .
 
 EXPOSE 8080
-# ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 CMD [ "npm", "start" ]

@@ -55,9 +55,14 @@ const NavBar = () => {
     );
   }
 	return (
-		<Menu mode="vertical">
-			<h3>{title}</h3>
-			<Menu.Item>
+		<Menu mode="vertical" defaultValue={['home']}>
+      <Menu.Item key="home">
+				<Link to="/" className="navbar-item" data-testid="nav-about">
+					Home
+				</Link>
+			</Menu.Item>
+
+			<Menu.Item key="about">
 				<Link to="/about" className="navbar-item" data-testid="nav-about">
 					About
 				</Link>
@@ -65,12 +70,12 @@ const NavBar = () => {
 
 			{isAuthenticated ? (
 				<>
-					<Menu.Item>
+					<Menu.Item key="status">
 						<Link to="/status" className="navbar-item" data-testid="nav-status">
 							User Status
 						</Link>
 					</Menu.Item>
-					<Menu.Item>
+					<Menu.Item key="logout">
 						<div onClick={logoutUser}>
 							Logout
 						</div>		
@@ -78,12 +83,13 @@ const NavBar = () => {
 				</>
 			) : (
 				<>
-				<Menu.Item>
+				<Menu.Item key="register">
 					<Link to="/register" className="navbar-item" data-testid="nav-register">
 						Register
 					</Link>
 				</Menu.Item>
-				<Menu.Item>
+
+				<Menu.Item key="login">
 					<Link to="/login" className="navbar-item" data-testid="nav-login">
 						Log In
 					</Link>

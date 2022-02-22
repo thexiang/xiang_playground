@@ -42,6 +42,7 @@ export const Routes = () => {
             {routes.map((route, index) => (
                 <Route key={index} path={route.path} exact={route.exact} element={<Layout><route.component /></Layout>} />
             ))}
+            <Route path="*" element={<div>Page Not Found</div>}/>
         </Switch>
     )
 }
