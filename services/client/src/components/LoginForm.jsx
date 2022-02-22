@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Navigate } from "react-router-dom";
+import { AuthContext } from "context/authContext";
 
 import "./form.css";
-import { AuthContext } from "context/authContext";
 
 const LoginForm = () => {
   const {handleLoginFormSubmit, getIsAuthenticated} = useContext(AuthContext);

@@ -6,7 +6,7 @@ import AddUser from 'components/AddUser';
 import UsersList from 'components/UsersList';
 
 
-export const UsersPage = () => {
+export const DogsPage = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const { getIsAuthenticated } = useContext(AuthContext);

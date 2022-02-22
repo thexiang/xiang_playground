@@ -25,12 +25,12 @@ export const UsersProvider = (props) => {
     const { createMessage } = useContext(MessageContext);
 
     const getUsers = async () => {
-        // try {
-        //     const res = await axios.get(`${process.env.REACT_APP_API_SERVICE_URL}/users`)
-        //     setUsersArr(res.data);
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_SERVICE_URL}/users`)
+            setUsersArr(res.data);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const getDogs = async () => {

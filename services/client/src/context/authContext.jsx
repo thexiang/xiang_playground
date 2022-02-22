@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import axios from "axios";
 
 import { MessageContext } from './messageContext';
@@ -20,7 +20,6 @@ export const AuthProvider = (props) => {
 
     const validRefresh = () => {
       const token = window.localStorage.getItem("refreshToken");
-      console.log(token);
       if (token) {
         axios
           .post(`${process.env.REACT_APP_API_SERVICE_URL}/auth/refresh`, {
@@ -52,8 +51,7 @@ export const AuthProvider = (props) => {
           });
     };
 
-    const getIsAuthenticated = async () => {
-      console.log(validRefresh());
+    const getIsAuthenticated = () => {
         if (accessToken || validRefresh()) {
           return true;
         }
@@ -82,6 +80,10 @@ export const AuthProvider = (props) => {
         setAccessToken(null);
 		createMessage("success", "You have logged out.");
 	};
+
+  useEffect(() => {
+    validRefresh()
+  }, [])
 
 	return (
 		<AuthContext.Provider

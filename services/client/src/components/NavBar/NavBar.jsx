@@ -27,6 +27,11 @@ const NavBar = () => {
 
 			{getIsAuthenticated() ? (
 				<>
+					<Menu.Item key="users">
+						<Link to="/users" className="navbar-item" data-testid="nav-status">
+							Users List
+						</Link>
+					</Menu.Item>
 					<Menu.Item key="status">
 						<Link to="/status" className="navbar-item" data-testid="nav-status">
 							User Status

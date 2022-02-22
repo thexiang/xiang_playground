@@ -10,9 +10,9 @@ import "./form.css";
 const RegisterForm = (props) => {
   const { handleRegisterFormSubmit, getIsAuthenticated } = useContext(AuthContext);
   
-  if (getIsAuthenticated()) {
-    return <Navigate to="/" replace />;
-  }
+  // if (getIsAuthenticated()) {
+  //   return <Navigate to="/" replace />;
+  // }
 
   return (
     <div>

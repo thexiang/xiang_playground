@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes as Switch, Route } from 'react-router-dom';
 
-import { UsersPage } from 'pages/UsersPage/UsersPage';
+import { DogsPage } from 'pages/DogsPage/DogsPage';
 import { AboutPage } from 'pages/AboutPage/AboutPage';
 import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { StatusPage } from 'pages/StatusPage/StatusPage';
+import { UsersListPage } from 'pages/UsersListPage/UsersListPage';
 import { Layout } from 'components/Layout/Layout';
 import { Flask } from 'pages/Flask/FlaskPage';
 
@@ -13,7 +14,7 @@ const routes = [
     {
 		path: '/',
 		exact: true,
-		component: UsersPage,
+		component: DogsPage,
 	},
     {
         path: '/about',
@@ -34,6 +35,11 @@ const routes = [
         path: '/status',
         exact: true,
         component: StatusPage
+    },
+    {
+        path: '/users',
+        exact: true,
+        component: UsersListPage,
     }
 ]
 
