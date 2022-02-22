@@ -33,6 +33,7 @@
     "react/no-unused-prop-types": "error",
     "react/react-in-jsx-scope": "error",
     "jsx-quotes": "off",
-    "react/jsx-indent": "off"
+    "react/jsx-indent": "off",
+    "indent": ["error", 4]
   }
 }
