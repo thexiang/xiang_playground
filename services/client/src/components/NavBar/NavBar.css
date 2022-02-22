@@ -1,0 +1,14 @@
+.nav-bar-box {
+  background-color: black;
+  min-height: 90vh;
+  margin: 2rem;
+  border-radius: 50px;
+  text-align: center;
+  padding: 1rem;
+}
+
+.nav-bar-box a {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}

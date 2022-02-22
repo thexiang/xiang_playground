@@ -1,19 +1,17 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Menu } from 'antd';
 
 import { AuthContext } from "context/authContext";
 import { UsersContext } from "context/usersContext";
 
 import "./NavBar.css";
 
-const titleStyle = {
-  fontWeight: "bold",
-};
-
 const NavBar = () => {
   const { getIsAuthenticated, logoutUser } = useContext(AuthContext);
   const { title } = useContext(UsersContext);
+
+  const isAuthenticated = getIsAuthenticated();
 
   let menu = (
     <div className="navbar-menu">
@@ -56,35 +54,44 @@ const NavBar = () => {
       </div>
     );
   }
-  return (
-    <nav
-      className="navbar is-dark"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <section className="container">
-        <div className="navbar-brand">
-          <Link to="/" className="navbar-item nav-title" style={titleStyle}>
-            {title}
-          </Link>
-          <span
-            className="nav-toggle navbar-burger"
-            onClick={() => {
-              let toggle = document.querySelector(".nav-toggle");
-              let menu = document.querySelector(".navbar-menu");
-              toggle.classList.toggle("is-active");
-              menu.classList.toggle("is-active");
-            }}
-          >
-            <span />
-            <span />
-            <span />
-          </span>
-        </div>
-        {menu}
-      </section>
-    </nav>
-  );
+	return (
+		<Menu mode="vertical">
+			<h3>{title}</h3>
+			<Menu.Item>
+				<Link to="/about" className="navbar-item" data-testid="nav-about">
+					About
+				</Link>
+			</Menu.Item>
+
+			{isAuthenticated ? (
+				<>
+					<Menu.Item>
+						<Link to="/status" className="navbar-item" data-testid="nav-status">
+							User Status
+						</Link>
+					</Menu.Item>
+					<Menu.Item>
+						<div onClick={logoutUser}>
+							Logout
+						</div>		
+					</Menu.Item>
+				</>
+			) : (
+				<>
+				<Menu.Item>
+					<Link to="/register" className="navbar-item" data-testid="nav-register">
+						Register
+					</Link>
+				</Menu.Item>
+				<Menu.Item>
+					<Link to="/login" className="navbar-item" data-testid="nav-login">
+						Log In
+					</Link>
+				</Menu.Item>
+				</>
+			)}
+		</Menu>
+	);
 };
 
 export default NavBar;

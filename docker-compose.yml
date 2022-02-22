@@ -26,6 +26,9 @@ services:
     volumes:
       - './services/dogs:/usr/src/app'
       - '/usr/src/app/node_modules'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/api_dev
+      - DATABASE_TEST_URL=postgresql://postgres:postgres@api-db:5432/api_test
     ports:
       - 5005:8080
 
@@ -52,6 +55,6 @@ services:
     environment:
       - NODE_ENV=development
       - REACT_APP_API_SERVICE_URL=${REACT_APP_API_SERVICE_URL}
-      - REACT_NODE_DOG_API_URL=${REACT_NODE_DOG_API_URL}
+      - REACT_APP_NODE_DOG_API_URL=${REACT_APP_NODE_DOG_API_URL}
     depends_on:
       - api

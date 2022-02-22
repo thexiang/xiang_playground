@@ -5,6 +5,7 @@ import { MessageContext } from './messageContext';
 
 export const UsersContext = createContext({
     usersArr: [],
+    dogs: [],
     title: 'Miya Playground',
     getUsers: () => {},
     addUser: () => {},
@@ -13,6 +14,7 @@ export const UsersContext = createContext({
 
 export const UsersProvider = (props) => {
 	const [usersArr, setUsersArr] = useState([]);
+    const [dogs, setDogs] = useState([]);
     const [title, setTitle] = useState('Miya Playground');
 
     // TODO: move to another context?
@@ -26,6 +28,15 @@ export const UsersProvider = (props) => {
         try {
             const res = await axios.get(`${process.env.REACT_APP_API_SERVICE_URL}/users`)
             setUsersArr(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const getDogs = async () => {
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_NODE_DOG_API_URL}/dogs`);
+            setDogs(res.data);
         } catch (err) {
             console.error(err);
         }
@@ -66,6 +77,7 @@ export const UsersProvider = (props) => {
     };
 
     useEffect(() => {
+        getDogs();
         getUsers();
     }, [])
 
@@ -77,6 +89,7 @@ export const UsersProvider = (props) => {
 		<UsersContext.Provider
 			value={{
 				usersArr,
+                dogs,
                 title,
                 getUsers,
                 addUser,

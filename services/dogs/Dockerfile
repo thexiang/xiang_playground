@@ -8,12 +8,13 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json .
+COPY package-lock.json .
 RUN npm install
 
 # Bundle app source
 COPY . .
 
 EXPOSE 8080
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 CMD [ "npm", "start" ]

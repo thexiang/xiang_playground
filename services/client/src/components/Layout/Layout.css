@@ -1,0 +1,9 @@
+.content-layout {
+    padding: 2rem;
+}
+
+.two-col-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 40px;
+}

@@ -1,20 +1,15 @@
 import React from "react";
 
-import Message from "components/Message";
-import NavBar from "components/NavBar";
-
+import NavBar from "components/NavBar/NavBar";
 import { Routes } from 'router/routes';
+
+import './App.css';
 
 const App = () => {
     return (
-		<div>
+		<div className="layout">
 			<NavBar />
-			<section className="section">
-				<div className="container">
-					<Message />
-					<Routes />
-				</div>
-			</section>
+			<Routes />
 		</div>
     );
 }

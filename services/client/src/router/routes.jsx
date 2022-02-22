@@ -6,6 +6,7 @@ import { AboutPage } from 'pages/AboutPage/AboutPage';
 import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { StatusPage } from 'pages/StatusPage/StatusPage';
+import { Layout } from 'components/Layout/Layout';
 
 const routes = [
     {
@@ -39,7 +40,7 @@ export const Routes = () => {
     return (
         <Switch>
             {routes.map((route, index) => (
-                <Route key={index} path={route.path} exact={route.exact} element={<route.component />} />
+                <Route key={index} path={route.path} exact={route.exact} element={<Layout><route.component /></Layout>} />
             ))}
         </Switch>
     )

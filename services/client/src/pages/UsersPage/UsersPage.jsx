@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import Modal from "react-modal";
+import { Button } from 'antd';
 
 import { AuthContext } from 'context/authContext';
 import AddUser from 'components/AddUser';
 import UsersList from 'components/UsersList';
 
 import miyaPhoto from 'assets/miya.JPG';
+import coverPhoto from 'assets/cover.png';
 
 const modalStyles = {
 	content: {
@@ -28,17 +30,13 @@ export const UsersPage = () => {
 
     return (
         <div>
-			<h1 className="title is-1">Users</h1>
-			<hr />
-			<img src={miyaPhoto} /> 
-			<br />
+			{/* <img src={coverPhoto} />  */}
 			{getIsAuthenticated() && (
-				<button
+				<Button
 					onClick={() => setIsModalVisible(true)}
-					className="button is-primary"
 				>
 					Add User
-				</button>
+				</Button>
 			)}
 			<br />
 			<br />
