@@ -3,7 +3,7 @@
 Notes:
 get aws cred
 ```
-aws exec xiangxupersonal -d 5h
+aws-vault exec xiangxupersonal -d 5h
 ```
 
 ### Dev Setup:
@@ -13,39 +13,16 @@ make seed
 ```
 
 ### Prod Deployment Note
-login ecr
+build prod images of different services
 ```
-aws ecr get-login-password --region us-east-1 \
-  | docker login --username AWS --password-stdin 868156198587.dkr.ecr.us-east-1.amazonaws.com
-```
-
-build user service images
-```
-docker build \
-  -f services/users/Dockerfile.prod \
-  -t 868156198587.dkr.ecr.us-east-1.amazonaws.com/test-driven-users-fargate:prod \
-  ./services/users
+make build-image AWS_ACC_ID=<YOUR_AWS_ACCOUNT_ID>
 ```
 
-build client service images with dummy REACT_APP_API_SERVICE_URL, because this is automatically generate from AWS, we get it when terraform finishs the provision
+login ecr and push prod images, aws cred needed in terminal
 ```
-docker build \
-  -f services/client/Dockerfile.prod \
-  -t 868156198587.dkr.ecr.us-east-1.amazonaws.com/test-driven-client-fargate:prod \
-  --build-arg NODE_ENV=production \
-  --build-arg REACT_APP_API_SERVICE_URL=http://notreal \
-  ./services/client
+make push-images
 ```
 
-push user service images
-```
-docker push 868156198587.dkr.ecr.us-east-1.amazonaws.com/test-driven-users-fargate:prod
-```
-
-push client service images
-```
-docker push 868156198587.dkr.ecr.us-east-1.amazonaws.com/test-driven-client-fargate:prod
-```
 
 once terraform done with apply, rebuild the image with the env with alb dns
 ```
