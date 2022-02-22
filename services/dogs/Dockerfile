@@ -8,6 +8,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json .
+COPY prisma ./prisma/
 RUN npm install
 
 # Bundle app source

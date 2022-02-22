@@ -20,6 +20,7 @@ services:
       - api-db
 
   node-api:
+    container_name: node-api
     build:
       context: ./services/dogs
       dockerfile: Dockerfile
@@ -28,6 +29,8 @@ services:
       - '/usr/src/app/node_modules'
     ports:
       - 5005:8080
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/api_dev
 
   api-db:
     build:
