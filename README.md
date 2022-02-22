@@ -6,6 +6,13 @@ get aws cred
 aws exec xiangxupersonal -d 5h
 ```
 
+### Dev Setup:
+```
+docker-compose up --build
+make seed
+```
+
+### Prod Deployment Note
 login ecr
 ```
 aws ecr get-login-password --region us-east-1 \
