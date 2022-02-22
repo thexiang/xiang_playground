@@ -38,7 +38,7 @@ app.post('/dog/add', async (req, res) => {
 	res.status(200).json(dog);
 });
 
-app.post('/dog/update/:id', async (req, res) => {
+app.patch('/dog/update/:id', async (req, res) => {
 	const id = parseInt(req.params.id);
 	
 	const dog = await prisma.dog.update({
