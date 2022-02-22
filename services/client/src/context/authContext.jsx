@@ -45,7 +45,6 @@ export const AuthProvider = (props) => {
         axios
           .post(url, data)
           .then((res) => {
-            console.log(res.data);
             createMessage("success", "You have registered successfully.");
           })
           .catch((err) => {
@@ -55,7 +54,6 @@ export const AuthProvider = (props) => {
     };
 
     const getIsAuthenticated = async () => {
-        console.log('accessToken || validRefresh()', accessToken || validRefresh());
         if (accessToken || validRefresh()) {
           return true;
         }
