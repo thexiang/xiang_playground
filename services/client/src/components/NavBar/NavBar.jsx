@@ -11,49 +11,6 @@ const NavBar = () => {
   const { getIsAuthenticated, logoutUser } = useContext(AuthContext);
   const { title } = useContext(UsersContext);
 
-  const isAuthenticated = getIsAuthenticated();
-
-  let menu = (
-    <div className="navbar-menu">
-      <div className="navbar-start">
-        <Link to="/about" className="navbar-item" data-testid="nav-about">
-          About
-        </Link>
-      </div>
-      <div className="navbar-end">
-        <Link to="/register" className="navbar-item" data-testid="nav-register">
-          Register
-        </Link>
-        <Link to="/login" className="navbar-item" data-testid="nav-login">
-          Log In
-        </Link>
-      </div>
-    </div>
-  );
-  if (getIsAuthenticated()) {
-    menu = (
-      <div className="navbar-menu">
-        <div className="navbar-start">
-          <Link to="/about" className="navbar-item" data-testid="nav-about">
-            About
-          </Link>
-          <Link to="/status" className="navbar-item" data-testid="nav-status">
-            User Status
-          </Link>
-        </div>
-        <div className="navbar-end">
-          <span
-            // eslint-disable-next-line react/jsx-handler-names
-            onClick={logoutUser}
-            className="navbar-item link"
-            data-testid="nav-logout"
-          >
-            Log Out
-          </span>
-        </div>
-      </div>
-    );
-  }
 	return (
 		<Menu mode="vertical" defaultValue={['home']}>
       <Menu.Item key="home">
@@ -68,7 +25,7 @@ const NavBar = () => {
 				</Link>
 			</Menu.Item>
 
-			{isAuthenticated ? (
+			{getIsAuthenticated() ? (
 				<>
 					<Menu.Item key="status">
 						<Link to="/status" className="navbar-item" data-testid="nav-status">

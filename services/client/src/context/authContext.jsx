@@ -18,26 +18,25 @@ export const AuthProvider = (props) => {
 
     const { createMessage } = useContext(MessageContext);
 
-    const validRefresh = async () => {
-        let isValid;
-        try {
-            const token = window.localStorage.getItem("refreshToken");
-            if (token) {
-                const res = await axios.post(`${process.env.REACT_APP_API_SERVICE_URL}/auth/refresh`, {
-                                refresh_token: token,
-                            })
-                isValid = true;
-                setAccessToken(res.data.access_token);
-                window.localStorage.setItem("refreshToken", res.data.refresh_token);
-            } else {
-                isValid = false;
-            }
-        } catch (err) {
-            console.error(err);
-            isValid = false;
-        } finally {
-            return isValid;
-        }
+    const validRefresh = () => {
+      const token = window.localStorage.getItem("refreshToken");
+      console.log(token);
+      if (token) {
+        axios
+          .post(`${process.env.REACT_APP_API_SERVICE_URL}/auth/refresh`, {
+            refresh_token: token,
+          })
+          .then((res) => {
+            this.setState({ accessToken: res.data.access_token });
+            this.getUsers();
+            window.localStorage.setItem("refreshToken", res.data.refresh_token);
+            return true;
+          })
+          .catch((err) => {
+            return false;
+          });
+      }
+      return false;
     }
 
     const handleRegisterFormSubmit = (data) => {
@@ -54,9 +53,11 @@ export const AuthProvider = (props) => {
     };
 
     const getIsAuthenticated = async () => {
+      console.log(validRefresh());
         if (accessToken || validRefresh()) {
           return true;
         }
+        
         return false;
     };
 
