@@ -3,6 +3,8 @@ seed:
 	docker exec -it node-api npx prisma migrate dev deploy
 	docker exec -it node-api ts-node seed_dev.ts
 	docker exec -it node-api ts-node read_dog.ts
+	docker-compose exec api python manage.py recreate_db
+	docker-compose exec api python manage.py seed_db
 
 build-images:
 	docker build \

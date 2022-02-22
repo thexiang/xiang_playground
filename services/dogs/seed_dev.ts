@@ -7,7 +7,8 @@ async function main() {
   // ... you will write your Prisma Client queries here
   const user = await prisma.dog.create({
     data: {
-      name: 'Miya',
+      name: 'Ollie',
+      age: 7,
     },
   })
 }

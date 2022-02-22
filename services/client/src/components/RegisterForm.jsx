@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Navigate } from "react-router-dom";
+import { AuthContext } from "context/authContext";
 
 import "./form.css";
 
 const RegisterForm = (props) => {
-  if (props.isAuthenticated()) {
-    return <Navigate to="/" replace />;
-  }
+  const { handleRegisterFormSubmit, getIsAuthenticated } = useContext(AuthContext);
+  
+  // if (getIsAuthenticated()) {
+  //   return <Navigate to="/" replace />;
+  // }
+
   return (
     <div>
       <h1 className="title is-1">Register</h1>
@@ -22,7 +26,7 @@ const RegisterForm = (props) => {
           password: "",
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          props.handleRegisterFormSubmit(values);
+          handleRegisterFormSubmit(values);
           resetForm();
           setSubmitting(false);
         }}
@@ -135,9 +139,5 @@ const RegisterForm = (props) => {
   );
 };
 
-RegisterForm.propTypes = {
-  handleRegisterFormSubmit: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.func.isRequired,
-};
 
 export default RegisterForm;
