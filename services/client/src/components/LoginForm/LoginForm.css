@@ -1,0 +1,17 @@
+.login-form .login-form-card {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3rem 4rem;
+}
+
+.login-form .title {
+    text-align: center;
+    margin-top: 6rem;
+    margin-bottom: 3rem;
+    color: #363636;
+}
+
+.login-form .login-button {
+    text-align: center;
+}

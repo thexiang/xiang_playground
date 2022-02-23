@@ -1,33 +1,24 @@
 import React, { useContext } from "react";
 import { Form, Button, Input } from "antd";
 import { Navigate } from "react-router-dom";
-
 import { AuthContext } from "context/authContext";
-import { Card } from "components/Card/Card";
 
-// import "./form.css";
+import { Card } from "../Card/Card";
 
-const RegisterForm = (props) => {
-  const { handleRegisterFormSubmit, getIsAuthenticated } = useContext(AuthContext);
-  
-  // if (getIsAuthenticated()) {
-  //   return <Navigate to="/" replace />;
-  // }
+import "./LoginForm.css";
 
+const LoginForm = () => {
+	const {handleLoginFormSubmit, getIsAuthenticated} = useContext(AuthContext);
+
+	if (getIsAuthenticated()) {
+		return <Navigate to="/" replace />;
+	}
 	return (
 		<div className="login-form">
-			<h2 className="title">Register for Flask</h2>
+			<h2 className="title">Log In to Flask App</h2>
 
 			<Card className="login-form-card">
-				<Form onFinish={handleRegisterFormSubmit} layout="vertical">
-					<Form.Item 
-						label="Username" 
-						name="username" 
-						rules={[{ required: true, message: 'Please enter your username' }]}
-					>
-						<Input />
-					</Form.Item>
-
+				<Form onFinish={handleLoginFormSubmit} layout="vertical">
 					<Form.Item 
 						label="Email" 
 						name="email" 
@@ -46,7 +37,7 @@ const RegisterForm = (props) => {
 
 					<div className="login-button">
 						<Button style={{ width: '200px', marginTop: '1rem' }} type="primary" htmlType="submit" size="large">
-							Register
+							Login
 						</Button>
 					</div>
 				</Form>
@@ -55,5 +46,4 @@ const RegisterForm = (props) => {
 	);
 };
 
-
-export default RegisterForm;
+export default LoginForm;

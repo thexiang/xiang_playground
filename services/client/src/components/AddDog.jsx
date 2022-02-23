@@ -3,9 +3,7 @@ import { Form, Input, InputNumber, Button } from 'antd';
 
 import { UsersContext } from "context/usersContext";
 
-import "./form.css";
-
-const AddUser = ({ onCancel }) => {
+const AddDog = ({ onCancel }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const { addDog } = useContext(UsersContext);
@@ -22,15 +20,15 @@ const AddUser = ({ onCancel }) => {
 	}
 
 	return (
-		<>
+		<div className="login-form">
 			<h3>Add your puppy!</h3>
-			<Form onFinish={handleFinish} disabled={isSubmitting}>
+			<Form className="form" onFinish={handleFinish} disabled={isSubmitting} layout="vertical">
 				<Form.Item 
 					label="Name" 
 					name="name" 
 					rules={[{ required: true, message: 'Please enter puppy name' }]}
 				>
-					<Input style={{ width: '200px' }} />
+					<Input />
 				</Form.Item>
 
 				<Form.Item 
@@ -38,14 +36,14 @@ const AddUser = ({ onCancel }) => {
 					name="age"
 					rules={[{ required: true, message: 'Please enter puppy age' }]}
 				>
-					<InputNumber style={{ width: '200px' }} />
+					<InputNumber style={{ width: '100%' }} />
 				</Form.Item>
 
 				<Button onClick={onCancel} disabled={isSubmitting} style={{ marginRight: '10px' }}>Cancel</Button>
 				<Button type="primary" htmlType="submit" loading={isSubmitting} disabled={isSubmitting}>Submit</Button>
 			</Form>
-		</>
+		</div>
 	)
 };
 
-export default AddUser;
+export default AddDog;

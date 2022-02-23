@@ -47,7 +47,7 @@ export const UsersProvider = (props) => {
 
     const updateDog = async (id, data) => {
         try {
-            await axios.post(`${process.env.REACT_APP_NODE_DOG_API_URL}/dog/update/${id}`, data);
+            await axios.patch(`${process.env.REACT_APP_NODE_DOG_API_URL}/dog/update/${id}`, data);
             getDogs();
         } catch (err) {
             console.error(err);

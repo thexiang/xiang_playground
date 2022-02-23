@@ -2,3 +2,8 @@
     display: grid;
     grid-template-columns: 1fr 8fr;
 }
+
+.ant-btn-primary {
+    background-color: #363636;
+    border: none;
+}
