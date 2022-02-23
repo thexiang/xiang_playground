@@ -8,7 +8,7 @@ import { Card } from "components/Card/Card";
 // import "./form.css";
 
 const RegisterForm = (props) => {
-  const { handleRegisterFormSubmit, getIsAuthenticated } = useContext(AuthContext);
+  const { handleRegisterFormSubmit, getIsAuthenticated, isSubmitting } = useContext(AuthContext);
   
   // if (getIsAuthenticated()) {
   //   return <Navigate to="/" replace />;
@@ -18,7 +18,7 @@ const RegisterForm = (props) => {
 		<div className="login-form">
 			<h2 className="title">Register for Flask</h2>
 
-			<Card className="login-form-card">
+			<Card className="login-form-card" disabled={isSubmitting}>
 				<Form onFinish={handleRegisterFormSubmit} layout="vertical">
 					<Form.Item 
 						label="Username" 
@@ -45,7 +45,13 @@ const RegisterForm = (props) => {
 					</Form.Item>
 
 					<div className="login-button">
-						<Button style={{ width: '200px', marginTop: '1rem' }} type="primary" htmlType="submit" size="large">
+						<Button
+							style={{ width: '200px', marginTop: '1rem' }} 
+							type="primary" 
+							htmlType="submit" 
+							size="large" 
+							loading={isSubmitting} disabled={isSubmitting}
+						>
 							Register
 						</Button>
 					</div>

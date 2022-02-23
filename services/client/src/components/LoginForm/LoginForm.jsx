@@ -8,7 +8,7 @@ import { Card } from "../Card/Card";
 import "./LoginForm.css";
 
 const LoginForm = () => {
-	const {handleLoginFormSubmit, getIsAuthenticated} = useContext(AuthContext);
+	const {handleLoginFormSubmit, getIsAuthenticated, isSubmitting } = useContext(AuthContext);
 
 	if (getIsAuthenticated()) {
 		return <Navigate to="/" replace />;
@@ -18,7 +18,7 @@ const LoginForm = () => {
 			<h2 className="title">Log In to Flask App</h2>
 
 			<Card className="login-form-card">
-				<Form onFinish={handleLoginFormSubmit} layout="vertical">
+				<Form onFinish={handleLoginFormSubmit} layout="vertical" disabled={isSubmitting}>
 					<Form.Item 
 						label="Email" 
 						name="email" 
@@ -36,7 +36,7 @@ const LoginForm = () => {
 					</Form.Item>
 
 					<div className="login-button">
-						<Button style={{ width: '200px', marginTop: '1rem' }} type="primary" htmlType="submit" size="large">
+						<Button style={{ width: '200px', marginTop: '1rem' }} type="primary" htmlType="submit" size="large" loading={isSubmitting} disabled={isSubmitting}>
 							Login
 						</Button>
 					</div>
