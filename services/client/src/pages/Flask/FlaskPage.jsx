@@ -3,8 +3,8 @@ import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Modal from "react-modal";
 
-import AddUser from "components/AddUser";
-import LoginForm from "components/LoginForm";
+import AddUser from "components/AddDog";
+import LoginForm from "components/LoginForm/LoginForm";
 import Message from "components/Message";
 import NavBar from "components/NavBar/NavBar";
 import RegisterForm from "components/RegisterForm";

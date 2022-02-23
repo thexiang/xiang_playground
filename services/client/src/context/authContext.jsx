@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import axios from "axios";
-
-import { MessageContext } from './messageContext';
+import { notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext({
     accessToken: null,
@@ -10,13 +10,15 @@ export const AuthContext = createContext({
     handleLoginFormSubmit: () => {},
     logoutUser: () => {},
     isAuthenticated: true,
+    isSubmitting: false,
 });
 
 export const AuthProvider = (props) => {
     const [accessToken, setAccessToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(true); //TODO: change to false after fix login
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { createMessage } = useContext(MessageContext);
+    const navigate = useNavigate();
 
     const validRefresh = () => {
       const token = window.localStorage.getItem("refreshToken");
@@ -26,8 +28,7 @@ export const AuthProvider = (props) => {
             refresh_token: token,
           })
           .then((res) => {
-            this.setState({ accessToken: res.data.access_token });
-            this.getUsers();
+            setAccessToken(res.data.access_token);
             window.localStorage.setItem("refreshToken", res.data.refresh_token);
             return true;
           })
@@ -38,17 +39,22 @@ export const AuthProvider = (props) => {
       return false;
     }
 
-    const handleRegisterFormSubmit = (data) => {
+    const handleRegisterFormSubmit = async (data) => {
         const url = `${process.env.REACT_APP_API_SERVICE_URL}/auth/register`;
-        axios
-          .post(url, data)
-          .then((res) => {
-            createMessage("success", "You have registered successfully.");
-          })
-          .catch((err) => {
-            console.error(err);
-            createMessage("danger", "That user already exists.");
+        setIsSubmitting(true);
+        try {
+          axios.post(url, data);
+          notification.success({
+            message: 'Register Success!',
+            description:
+              'You can now using login form to access Flask app',
           });
+          navigate('/login')
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsSubmitting(false);
+        }
     };
 
     const getIsAuthenticated = () => {
@@ -59,27 +65,33 @@ export const AuthProvider = (props) => {
         return false;
     };
 
-    const handleLoginFormSubmit = (data) => {
+    const handleLoginFormSubmit = async (data) => {
         const url = `${process.env.REACT_APP_API_SERVICE_URL}/auth/login`;
-        axios
-          .post(url, data)
-          .then((res) => {
-            setAccessToken(res.data.access_token)
-            getUsers();
-            window.localStorage.setItem("refreshToken", res.data.refresh_token);
-            createMessage("success", "You have logged in successfully.");
-          })
-          .catch((err) => {
-            console.error(err);
-            createMessage("danger", "Incorrect email and/or password.");
+        setIsSubmitting(true)
+        try {
+          const res = await axios.post(url, data)
+          setAccessToken(res.data.access_token)
+          window.localStorage.setItem("refreshToken", res.data.refresh_token);
+
+          notification.success({
+            message: 'Login Success!'
           });
+
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsSubmitting(false);
+        }
     };
 
     const logoutUser = () => {
-		window.localStorage.removeItem("refreshToken");
-        setAccessToken(null);
-		createMessage("success", "You have logged out.");
-	};
+      window.localStorage.removeItem("refreshToken");
+      setAccessToken(null);
+      navigate('/');
+      notification.success({
+        message: 'Logout Success!'
+      });
+    };
 
   useEffect(() => {
     validRefresh()
@@ -94,6 +106,7 @@ export const AuthProvider = (props) => {
                 handleLoginFormSubmit,
                 logoutUser,
                 isAuthenticated,
+                isSubmitting,
 			}}
 		>
 			{props.children}

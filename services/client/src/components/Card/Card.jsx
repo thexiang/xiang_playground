@@ -2,9 +2,9 @@ import React from 'react';
 
 import './Card.css';
 
-export const Card = ({ children }) => {
+export const Card = ({ className, children }) => {
     return (
-        <div className="card">
+        <div className={`card ${className}`}>
             {children}
         </div>
     )

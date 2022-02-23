@@ -1,142 +1,64 @@
 import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { Form, Button, Input } from "antd";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "context/authContext";
 
-import "./form.css";
+import { AuthContext } from "context/authContext";
+import { Card } from "components/Card/Card";
+
+// import "./form.css";
 
 const RegisterForm = (props) => {
-  const { handleRegisterFormSubmit, getIsAuthenticated } = useContext(AuthContext);
+  const { handleRegisterFormSubmit, getIsAuthenticated, isSubmitting } = useContext(AuthContext);
   
   // if (getIsAuthenticated()) {
   //   return <Navigate to="/" replace />;
   // }
 
-  return (
-    <div>
-      <h1 className="title is-1">Register</h1>
-      <hr />
-      <br />
-      <Formik
-        initialValues={{
-          username: "",
-          email: "",
-          password: "",
-        }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          handleRegisterFormSubmit(values);
-          resetForm();
-          setSubmitting(false);
-        }}
-        validationSchema={Yup.object().shape({
-          username: Yup.string()
-            .required("Username is required.")
-            .min(6, "Username must be greater than 5 characters."),
-          email: Yup.string()
-            .email("Enter a valid email.")
-            .required("Email is required.")
-            .min(6, "Email must be greater than 5 characters."),
-          password: Yup.string()
-            .required("Password is required.")
-            .min(11, "Password must be greater than 10 characters."),
-        })}
-      >
-        {(props) => {
-          const {
-            values,
-            touched,
-            errors,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-          } = props;
-          return (
-            <form onSubmit={handleSubmit}>
-              <div className="field">
-                <label className="label" htmlFor="input-username">
-                  Username
-                </label>
-                <input
-                  name="username"
-                  id="input-username"
-                  className={
-                    errors.username && touched.username
-                      ? "input error"
-                      : "input"
-                  }
-                  type="text"
-                  placeholder="Enter a username"
-                  value={values.username}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.username && touched.username && (
-                  <div className="input-feedback" data-testid="errors-username">
-                    {errors.username}
-                  </div>
-                )}
-              </div>
-              <div className="field">
-                <label className="label" htmlFor="input-email">
-                  Email
-                </label>
-                <input
-                  name="email"
-                  id="input-email"
-                  className={
-                    errors.email && touched.email ? "input error" : "input"
-                  }
-                  type="email"
-                  placeholder="Enter an email address"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.email && touched.email && (
-                  <div className="input-feedback" data-testid="errors-email">
-                    {errors.email}
-                  </div>
-                )}
-              </div>
-              <div className="field">
-                <label className="label" htmlFor="input-password">
-                  Password
-                </label>
-                <input
-                  name="password"
-                  id="input-password"
-                  className={
-                    errors.password && touched.password
-                      ? "input error"
-                      : "input"
-                  }
-                  type="password"
-                  placeholder="Enter a password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.password && touched.password && (
-                  <div className="input-feedback" data-testid="errors-password">
-                    {errors.password}
-                  </div>
-                )}
-              </div>
-              <input
-                type="submit"
-                className="button is-primary"
-                value="Submit"
-                disabled={isSubmitting}
-              />
-            </form>
-          );
-        }}
-      </Formik>
-    </div>
-  );
+	return (
+		<div className="login-form">
+			<h2 className="title">Register for Flask</h2>
+
+			<Card className="login-form-card" disabled={isSubmitting}>
+				<Form onFinish={handleRegisterFormSubmit} layout="vertical">
+					<Form.Item 
+						label="Username" 
+						name="username" 
+						rules={[{ required: true, message: 'Please enter your username' }]}
+					>
+						<Input />
+					</Form.Item>
+
+					<Form.Item 
+						label="Email" 
+						name="email" 
+						rules={[{ required: true, message: 'Please enter your email' }]}
+					>
+						<Input />
+					</Form.Item>
+
+					<Form.Item 
+						label="Password" 
+						name="password"
+						rules={[{ required: true, message: 'Please enter your password' }]}
+					>
+						<Input type="password" />
+					</Form.Item>
+
+					<div className="login-button">
+						<Button
+							style={{ width: '200px', marginTop: '1rem' }} 
+							type="primary" 
+							htmlType="submit" 
+							size="large" 
+							loading={isSubmitting} disabled={isSubmitting}
+						>
+							Register
+						</Button>
+					</div>
+				</Form>
+			</Card>
+		</div>
+	);
 };
 
 
